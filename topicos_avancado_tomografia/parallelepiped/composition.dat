@@ -1,0 +1,27 @@
+; Composition file
+;
+Newdevice composition			; Device type
+Composition			; Device name
+
+Phase Brain_ICRU44	; Brain, Grey/White Matter (ICRU-44)
+NElem 9			    ; Number of atomic species for phase
+1   10.7	        ; Atomic number, weight percent of element 0 (Hydrogen)
+6   14.5	        ; Atomic number, weight percent of element 1 (Carbon)
+7   2.2	            ; Atomic number, weight percent of element 2 (Nitrogen)
+8   71.2	        ; Atomic number, weight percent of element 3 (Oxygen)
+11   0.2	        ; Atomic number, weight percent of element 4 (Sodium)
+15   0.4	        ; Atomic number, weight percent of element 5 (Phosphorus)
+16   0.2	        ; Atomic number, weight percent of element 6 (Sulfur)
+17   0.3	        ; Atomic number, weight percent of element 7 (Chlorine)
+19   0.3	        ; Atomic number, weight percent of element 8 (Potassium)
+Rho 1.040	        ; mass density of the phase (g/cm3)
+
+Phase Air	        ; Air, Dry (near sea level)
+NElem 4		        ; Number of atomic species for phase
+6   0.0124	        ; Atomic number, weight percent of element 0 (Carbon)
+7   75.5267	        ; Atomic number, weight percent of element 1 (Nitrogen)
+8   23.1781	        ; Atomic number, weight percent of element 2 (Oxygen)
+18   1.2827	        ; Atomic number, weight percent of element 3 (Argon)
+Rho 0.001205	    ; mass density of the phase (g/cm3) at 20C
+
+End

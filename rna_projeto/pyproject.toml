@@ -1,0 +1,21 @@
+[project]
+name = "projeto_final_rna_mestrado"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "ipykernel>=7.1.0",
+    "matplotlib>=3.10.7",
+    "numpy>=2.3.5",
+    "opencv-python>=4.11.0.86",
+    "pandas>=2.3.3",
+    "pip>=25.3",
+    "pycocotools>=2.0.10",
+    "scikit-image>=0.25.2",
+    "scikit-learn>=1.7.2",
+    "seaborn>=0.13.2",
+    "torch>=2.9.1",
+    "torchvision>=0.24.1",
+    "tqdm>=4.67.1",
+]

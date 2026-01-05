@@ -1,0 +1,51 @@
+; Quadric array file
+;
+Newdevice quadricarray				; Device type
+QuadricArray				; Device name
+
+;external paralelepipedo
+Plane  P1    		; face lateral x1:
+3.5 0 0 1 0 0	        ; point x0, y0, z0, normal vect. ux, uy, uz
+
+Plane  P2    		; face lateral x2:
+-3.5 0 0 -1 0 0	    ; point x0, y0, z0, normal vect. ux, uy, uz
+
+Plane  P3    		; face lateral y1:
+0 1.75 0 0 1 0	        ; point x0, y0, z0, normal vect. ux, uy, uz
+
+Plane  P4    		; face lateral y2:
+0 -1.75 0 0 -1 0	    ; point x0, y0, z0, normal vect. ux, uy, uz
+
+Plane  P5		    ; face superior:
+0 0  1.75 0 0  1	    ; point x0, y0, z0, normal vect. ux, uy, uz
+
+Plane  P6    		; face inferior:
+0 0 -1.75 0 0 -1	    ; point x0, y0, z0, normal vect. ux, uy, uz
+
+
+; internal paralelepipedo
+Plane  P7   ; face lateral x1 interna:
+1.75 0 0 1 0 0
+
+Plane  P8   ; face lateral x2 interna:
+-1.75 0 0 -1 0 0
+
+Plane  P9    ; face lateral y1 interna:
+0 0.875 0 0 1 0
+
+Plane  P10   ; face lateral y2 interna:
+0 -0.875 0 0 -1 0
+
+Plane  P11    ; face superior interna:
+0 0 0.875 0 0  1
+
+Plane  P12    ; face inferior interna:
+0 0 -0.875 0 0 -1
+
+; Translação
+; TranslateAll 0.0 0.0 -40.0
+
+; Rotation of all previous quadrics:
+RotateAll 0 0 0 0 0 1 0.0
+
+End
