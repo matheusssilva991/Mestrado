@@ -18,7 +18,6 @@ def young_membership(age, tail_end=30):
     # Depois de 25, a pertinencia continua caindo linearmente ate 0.
     if age < tail_end:
         return 0.3 * (tail_end - age) / (tail_end - 25.0)
-
     return 0.0
 
 
