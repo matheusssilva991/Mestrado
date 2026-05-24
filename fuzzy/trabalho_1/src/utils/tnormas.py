@@ -1,5 +1,4 @@
-import numpy as np
-
+from numpy import sqrt
 
 def tnorma_min(x: float, y: float) -> float:
     """T-norma do mínimo"""
@@ -36,6 +35,6 @@ def tnorma_dombi(x: float, y: float) -> float:
     """T-norma de Dombi"""
     fator_denom1 = ((1 - x) / x) ** 2
     fator_denom2 = ((1 - y) / y) ** 2
-    denom = 1 + np.sqrt(fator_denom1 + fator_denom2)
+    denom = 1 + sqrt(fator_denom1 + fator_denom2)
 
     return 1 / denom

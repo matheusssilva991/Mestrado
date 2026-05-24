@@ -1,4 +1,4 @@
-from math import sqrt
+from numpy import sqrt
 
 
 def tconorma_max(x: float, y: float) -> float:
