@@ -37,8 +37,11 @@ def tconorma_dombi(x: float, y: float) -> float:
     if x == 0 and y == 0:
         return 0
 
-    fator_denom1 = (x / (1 - x)) ** 2
-    fator_denom2 = (y / (1 - y)) ** 2
+    x = float(x)
+    y = float(y)
+    eps = 1e-12
+    fator_denom1 = (x / max(1 - x, eps)) ** 2
+    fator_denom2 = (y / max(1 - y, eps)) ** 2
     denom = 1 + sqrt(fator_denom1 + fator_denom2)
 
     return 1 - 1 / denom

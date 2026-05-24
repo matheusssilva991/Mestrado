@@ -1,5 +1,6 @@
 from numpy import sqrt
 
+
 def tnorma_min(x: float, y: float) -> float:
     """T-norma do mínimo"""
     return min(x, y)
@@ -33,8 +34,14 @@ def tnorma_sugeno_weber(x: float, y: float) -> float:
 
 def tnorma_dombi(x: float, y: float) -> float:
     """T-norma de Dombi"""
-    fator_denom1 = ((1 - x) / x) ** 2
-    fator_denom2 = ((1 - y) / y) ** 2
+    if x == 0 or y == 0:
+        return 0.0
+
+    x = float(x)
+    y = float(y)
+    eps = 1e-12
+    fator_denom1 = ((1 - x) / max(x, eps)) ** 2
+    fator_denom2 = ((1 - y) / max(y, eps)) ** 2
     denom = 1 + sqrt(fator_denom1 + fator_denom2)
 
     return 1 / denom

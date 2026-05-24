@@ -12,6 +12,10 @@ from .conjuntos_fuzzy import (
     gerar_conjuntos_fuzzy_risco_fadiga,
     pertinencia_no_valor,
 )
+from .carregamento import (
+    carregar_coletas,
+    carregar_regras,
+)
 from .defuzzificadores import (
     centro_gravidade,
     centro_maximos,
@@ -24,6 +28,7 @@ from .plot import (
     plot_conjunto_saida_fuzzy,
     salvar_figura_conjunto_saida,
 )
+from .universos import UNIVERSOS_DISCURSO
 from .operadores import (
     TNORMAS_DISPONIVEIS,
     TCONORMAS_DISPONIVEIS,
@@ -54,10 +59,15 @@ __all__ = [
     "gerar_conjuntos_fuzzy_vibracao_torre",
     "gerar_conjuntos_fuzzy_risco_fadiga",
     "pertinencia_no_valor",
+    # carregamento
+    "carregar_coletas",
+    "carregar_regras",
     # plot
     "plot_conjuntos_fuzzy",
     "plot_conjunto_saida_fuzzy",
     "salvar_figura_conjunto_saida",
+    # universos
+    "UNIVERSOS_DISCURSO",
     # operadores
     "TNORMAS_DISPONIVEIS",
     "TCONORMAS_DISPONIVEIS",
