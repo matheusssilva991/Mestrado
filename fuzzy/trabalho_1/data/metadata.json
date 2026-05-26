@@ -1,0 +1,18 @@
+{
+    "coleta": {
+        "titulo": "Coleta",
+        "descricao": "ID da coleta realizada"
+    },
+    "velocidade_vento": {
+        "titulo": "Vel. do Vento (m/s)",
+        "descricao": "Velocidade do vento em metros por segundo"
+    },
+    "umidade_relativa": {
+        "titulo": "Umi. Relativa (%)",
+        "descricao": "Umidade relativa do ar em porcentagem"
+    },
+    "vibracao_torre": {
+        "titulo": "Vib. da Torre (mm/s)",
+        "descricao": "Vibração da torre em milímetros por segundo"
+    }
+}
