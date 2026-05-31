@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import numpy as np
 from numpy.typing import NDArray
 from pathlib import Path
 from typing import Any
@@ -12,19 +13,53 @@ def plot_conjuntos_fuzzy(
 ) -> None:
     """Plota os conjuntos fuzzy para um dado universo de discurso."""
 
-    figsize = kwargs.get("figsize", (10, 5))
+    figsize = kwargs.get("figsize", (12, 6))
     title = kwargs.get("title", f"Função de Pertinência para {nome_universo}")
     xlabel = kwargs.get("xlabel", "X")
     ylabel = kwargs.get("ylabel", "Grau de Pertinência")
+    title_fontsize = kwargs.get("title_fontsize", 14)
+    label_fontsize = kwargs.get("label_fontsize", 13)
+    tick_labelsize = kwargs.get("tick_labelsize", 10)
+    legend_fontsize = kwargs.get("legend_fontsize", 10)
+    caminho_saida = kwargs.get("caminho_saida")
+    dpi = kwargs.get("dpi", 600)
+    xticks = kwargs.get("xticks")
+    xtick_step = kwargs.get("xtick_step")
+    num_xticks = kwargs.get("num_xticks")
+    xtick_rotation = kwargs.get("xtick_rotation", 0)
+    minor_grid = kwargs.get("minor_grid", True)
 
     fig, ax = plt.subplots(figsize=figsize)
     for nome_conjunto, conjunto in conjuntos.items():
         ax.plot(universo, conjunto, label=nome_conjunto)
-    ax.set_title(title)
-    ax.set_xlabel(xlabel)
-    ax.set_ylabel(ylabel)
-    ax.legend()
-    ax.grid()
+    ax.set_title(title, fontsize=title_fontsize)
+    ax.set_xlabel(xlabel, fontsize=label_fontsize)
+    ax.set_ylabel(ylabel, fontsize=label_fontsize)
+
+    if xticks is not None:
+        ax.set_xticks(xticks)
+    elif xtick_step is not None:
+        inicio = np.floor(float(np.min(universo)) / xtick_step) * xtick_step
+        fim = np.ceil(float(np.max(universo)) / xtick_step) * xtick_step
+        ax.set_xticks(np.arange(inicio, fim + xtick_step, xtick_step))
+    elif num_xticks is not None:
+        ax.set_xticks(
+            np.linspace(float(np.min(universo)), float(np.max(universo)), num_xticks)
+        )
+
+    ax.tick_params(axis="x", rotation=xtick_rotation, labelsize=tick_labelsize)
+    ax.tick_params(axis="y", labelsize=tick_labelsize)
+    ax.legend(fontsize=legend_fontsize)
+    ax.grid(True, which="major", alpha=0.45)
+    if minor_grid:
+        ax.minorticks_on()
+        ax.grid(True, which="minor", alpha=0.15)
+
+    if caminho_saida is not None:
+        caminho_saida = Path(caminho_saida)
+        caminho_saida.parent.mkdir(parents=True, exist_ok=True)
+        fig.savefig(caminho_saida, dpi=dpi, bbox_inches="tight")
+
     plt.show()
 
 
@@ -38,12 +73,22 @@ def plot_conjunto_saida_fuzzy(
 ) -> Path | None:
     """Plota o conjunto fuzzy de saída agregado para uma amostra."""
 
-    figsize = kwargs.get("figsize", (10, 5))
+    figsize = kwargs.get("figsize", (12, 6))
     title = kwargs.get("title", f"Conjunto fuzzy de saída - amostra {amostra_idx}")
     xlabel = kwargs.get("xlabel", "Risco de Fadiga (%)")
     ylabel = kwargs.get("ylabel", "Grau de Pertinência")
+    title_fontsize = kwargs.get("title_fontsize", 15)
+    label_fontsize = kwargs.get("label_fontsize", 14)
+    tick_labelsize = kwargs.get("tick_labelsize", 11)
+    legend_fontsize = kwargs.get("legend_fontsize", 11)
     label = kwargs.get("label", "saída agregada")
     color = kwargs.get("color", "tab:blue")
+    dpi = kwargs.get("dpi", 600)
+    xticks = kwargs.get("xticks")
+    xtick_step = kwargs.get("xtick_step", 10)
+    yticks = kwargs.get("yticks", np.arange(0, 1.01, 0.1))
+    minor_grid = kwargs.get("minor_grid", True)
+    destacar_maximo = kwargs.get("destacar_maximo", True)
 
     fig, ax = plt.subplots(figsize=figsize)
     ax.plot(
@@ -59,15 +104,44 @@ def plot_conjunto_saida_fuzzy(
         color=color,
         alpha=0.2,
     )
-    ax.set_title(title)
-    ax.set_xlabel(xlabel)
-    ax.set_ylabel(ylabel)
+    ax.set_title(title, fontsize=title_fontsize)
+    ax.set_xlabel(xlabel, fontsize=label_fontsize)
+    ax.set_ylabel(ylabel, fontsize=label_fontsize)
     ax.set_ylim(0, 1.05)
-    ax.grid(True)
-    ax.legend()
+
+    if xticks is not None:
+        ax.set_xticks(xticks)
+    elif xtick_step is not None:
+        inicio = np.floor(float(np.min(valores_risco)) / xtick_step) * xtick_step
+        fim = np.ceil(float(np.max(valores_risco)) / xtick_step) * xtick_step
+        ax.set_xticks(np.arange(inicio, fim + xtick_step, xtick_step))
+
+    if yticks is not None:
+        ax.set_yticks(yticks)
+
+    ax.tick_params(axis="x", labelsize=tick_labelsize)
+    ax.tick_params(axis="y", labelsize=tick_labelsize)
+
+    if destacar_maximo and len(pertinencias) > 0:
+        indice_maximo = int(np.argmax(pertinencias))
+        valor_maximo = valores_risco[indice_maximo]
+        pertinencia_maxima = pertinencias[indice_maximo]
+        ax.scatter(
+            [valor_maximo],
+            [pertinencia_maxima],
+            color="tab:red",
+            zorder=3,
+            label=f"pico: {valor_maximo:.1f}%",
+        )
+
+    ax.grid(True, which="major", alpha=0.45)
+    if minor_grid:
+        ax.minorticks_on()
+        ax.grid(True, which="minor", alpha=0.15)
+    ax.legend(fontsize=legend_fontsize)
 
     if caminho_saida is not None:
-        fig.savefig(caminho_saida, dpi=150, bbox_inches="tight")
+        fig.savefig(caminho_saida, dpi=dpi, bbox_inches="tight")
 
     if exibir:
         plt.show()
@@ -82,6 +156,7 @@ def salvar_figura_conjunto_saida(
     figuras_saida_dir: Path,
     amostra_idx: int,
     exibir: bool = False,
+    dpi: int = 600,
 ) -> Path:
     """Salva (ou exibe) a figura do conjunto fuzzy de saída para uma amostra.
 
@@ -110,4 +185,5 @@ def salvar_figura_conjunto_saida(
         amostra_idx=amostra_idx,
         caminho_saida=caminho_figura,
         exibir=exibir,
+        dpi=dpi,
     )
