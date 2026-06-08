@@ -151,6 +151,107 @@ def plot_conjunto_saida_fuzzy(
     return caminho_saida
 
 
+def plot_implicacoes_fuzzy(
+    implicacoes_df,
+    amostra_idx: int,
+    caminho_saida: Path | None = None,
+    exibir: bool = False,
+    **kwargs: Any,
+) -> Path | None:
+    """Plota as implicações fuzzy das regras ativadas para uma amostra."""
+
+    implicacoes_amostra = implicacoes_df[
+        implicacoes_df["amostra"] == amostra_idx
+    ].sort_values(["regra", "valor_risco_fadiga"])
+
+    if implicacoes_amostra.empty:
+        raise ValueError(f"Amostra {amostra_idx} não encontrada em implicacoes_df")
+
+    figsize = kwargs.get("figsize", (12, 6))
+    title = kwargs.get("title", f"Implicações fuzzy - amostra {amostra_idx}")
+    xlabel = kwargs.get("xlabel", "Risco de Fadiga (%)")
+    ylabel = kwargs.get("ylabel", "Grau de Pertinência")
+    title_fontsize = kwargs.get("title_fontsize", 15)
+    label_fontsize = kwargs.get("label_fontsize", 14)
+    tick_labelsize = kwargs.get("tick_labelsize", 11)
+    legend_fontsize = kwargs.get("legend_fontsize", 9)
+    dpi = kwargs.get("dpi", 600)
+    xtick_step = kwargs.get("xtick_step", 10)
+    yticks = kwargs.get("yticks", np.arange(0, 1.01, 0.1))
+    minor_grid = kwargs.get("minor_grid", True)
+
+    fig, ax = plt.subplots(figsize=figsize)
+
+    for (regra, risco_fadiga), implicacao in implicacoes_amostra.groupby(
+        ["regra", "risco_fadiga"],
+        sort=True,
+    ):
+        forca_ativacao = float(implicacao["forca_ativacao"].iloc[0])
+        ax.plot(
+            implicacao["valor_risco_fadiga"],
+            implicacao["pertinencia_implicacao"],
+            linewidth=1.8,
+            alpha=0.9,
+            label=f"regra {regra} -> {risco_fadiga} (w={forca_ativacao:.3f})",
+        )
+
+    ax.set_title(title, fontsize=title_fontsize)
+    ax.set_xlabel(xlabel, fontsize=label_fontsize)
+    ax.set_ylabel(ylabel, fontsize=label_fontsize)
+    ax.set_ylim(0, 1.05)
+
+    if xtick_step is not None:
+        valores_risco = implicacoes_amostra["valor_risco_fadiga"]
+        inicio = np.floor(float(valores_risco.min()) / xtick_step) * xtick_step
+        fim = np.ceil(float(valores_risco.max()) / xtick_step) * xtick_step
+        ax.set_xticks(np.arange(inicio, fim + xtick_step, xtick_step))
+
+    if yticks is not None:
+        ax.set_yticks(yticks)
+
+    ax.tick_params(axis="x", labelsize=tick_labelsize)
+    ax.tick_params(axis="y", labelsize=tick_labelsize)
+    ax.grid(True, which="major", alpha=0.45)
+    if minor_grid:
+        ax.minorticks_on()
+        ax.grid(True, which="minor", alpha=0.15)
+    ax.legend(fontsize=legend_fontsize, loc="upper right")
+
+    if caminho_saida is not None:
+        caminho_saida = Path(caminho_saida)
+        caminho_saida.parent.mkdir(parents=True, exist_ok=True)
+        fig.savefig(caminho_saida, dpi=dpi, bbox_inches="tight")
+
+    if exibir:
+        plt.show()
+    else:
+        plt.close(fig)
+
+    return caminho_saida
+
+
+def salvar_figura_implicacoes(
+    implicacoes_df,
+    figuras_implicacoes_dir: Path,
+    amostra_idx: int,
+    exibir: bool = False,
+    dpi: int = 600,
+) -> Path:
+    """Salva (ou exibe) as curvas de implicação fuzzy de uma amostra."""
+
+    figuras_implicacoes_dir = Path(figuras_implicacoes_dir)
+    figuras_implicacoes_dir.mkdir(parents=True, exist_ok=True)
+    caminho_figura = figuras_implicacoes_dir / f"implicacoes_amostra_{amostra_idx}.png"
+
+    return plot_implicacoes_fuzzy(
+        implicacoes_df,
+        amostra_idx=amostra_idx,
+        caminho_saida=caminho_figura,
+        exibir=exibir,
+        dpi=dpi,
+    )
+
+
 def salvar_figura_conjunto_saida(
     agregacao_df,
     figuras_saida_dir: Path,
