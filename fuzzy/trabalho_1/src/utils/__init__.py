@@ -26,7 +26,9 @@ from .defuzzificadores import (
 from .plot import (
     plot_conjuntos_fuzzy,
     plot_conjunto_saida_fuzzy,
+    plot_implicacoes_fuzzy,
     salvar_figura_conjunto_saida,
+    salvar_figura_implicacoes,
 )
 from .universos import UNIVERSOS_DISCURSO
 from .operadores import (
@@ -65,7 +67,9 @@ __all__ = [
     # plot
     "plot_conjuntos_fuzzy",
     "plot_conjunto_saida_fuzzy",
+    "plot_implicacoes_fuzzy",
     "salvar_figura_conjunto_saida",
+    "salvar_figura_implicacoes",
     # universos
     "UNIVERSOS_DISCURSO",
     # operadores
