@@ -22,6 +22,12 @@ from .defuzzificadores import (
     media_maximos,
     DEFUZZICADORES_DISPONIVEIS,
 )
+from .decisao import (
+    DECISOES_OPERACIONAIS,
+    ROTULOS_RISCO_FADIGA,
+    categorizar_risco_fadiga,
+    decidir_operacao_turbinas,
+)
 
 from .plot import (
     plot_conjuntos_fuzzy,
@@ -83,6 +89,11 @@ __all__ = [
     "centro_maximos",
     "media_maximos",
     "DEFUZZICADORES_DISPONIVEIS",
+    # decisão operacional
+    "DECISOES_OPERACIONAIS",
+    "ROTULOS_RISCO_FADIGA",
+    "categorizar_risco_fadiga",
+    "decidir_operacao_turbinas",
     # relações
     "produto_carteziano",
     "produto_carteziano_scalar",
